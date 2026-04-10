@@ -1,805 +1,604 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Autohaus Meisner – Hol & Bring Service</title>
+<title>Autohaus Meisner – Hol & Bring</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Barlow:wght@300;400;500;600&display=swap');
-
-  :root {
-    --bg: #0f1117;
-    --surface: #181c27;
-    --surface2: #1e2333;
-    --border: #2a3045;
-    --accent: #e8350e;
-    --accent2: #f5a623;
-    --green: #27c97a;
-    --blue: #4a9eff;
-    --text: #e8eaf0;
-    --muted: #6b7494;
-    --red: #e8350e;
-    --gesperrt: #2a1a1a;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Barlow', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-  }
-
-  /* ── LOGIN ── */
-  #login-screen {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: radial-gradient(ellipse at 30% 50%, #1a0f0a 0%, #0f1117 60%);
-  }
-
-  .login-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: 3px solid var(--accent);
-    padding: 48px 40px;
-    width: 380px;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
-  }
-
-  .login-logo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 800;
-    font-size: 28px;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
-    color: var(--text);
-  }
-
-  .login-logo span { color: var(--accent); }
-
-  .login-sub {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 36px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-
-  .form-group { margin-bottom: 16px; }
-
-  .form-group label {
-    display: block;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-
-  .form-group input, .form-group select, .form-group textarea {
-    width: 100%;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 10px 14px;
-    font-size: 15px;
-    font-family: 'Barlow', sans-serif;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-    border-color: var(--accent);
-  }
-
-  .form-group textarea {
-    resize: vertical;
-    min-height: 80px;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: all 0.15s;
-  }
-
-  .btn-primary { background: var(--accent); color: #fff; }
-  .btn-primary:hover { background: #c42a0b; }
-  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-  .btn-secondary:hover { background: var(--border); }
-  .btn-success { background: var(--green); color: #000; }
-  .btn-danger { background: #c0392b; color: #fff; }
-  .btn-sm { padding: 6px 12px; font-size: 12px; }
-  .btn-full { width: 100%; justify-content: center; }
-
-  .error-msg {
-    color: var(--accent);
-    font-size: 13px;
-    margin-top: 12px;
-    padding: 8px 12px;
-    background: rgba(232,53,14,0.1);
-    border-left: 3px solid var(--accent);
-    display: none;
-  }
-
-  /* ── HEADER ── */
-  #app { display: none; }
-
-  .header {
-    background: var(--surface);
-    border-bottom: 2px solid var(--accent);
-    padding: 0 24px;
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    height: 56px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .header-logo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 800;
-    font-size: 22px;
-    letter-spacing: 1px;
-    flex-shrink: 0;
-  }
-
-  .header-logo span { color: var(--accent); }
-
-  .header-title {
-    font-size: 13px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    flex-shrink: 0;
-  }
-
-  .header-date-nav {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-left: auto;
-  }
-
-  .date-display {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    min-width: 220px;
-    text-align: center;
-  }
-
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-left: auto;
-  }
-
-  .live-badge {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--green);
-  }
-
-  .live-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  .user-badge {
-    font-size: 12px;
-    color: var(--muted);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .role-tag {
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 2px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 600;
-  }
-
-  .role-admin { background: var(--accent); color: #fff; }
-  .role-writer { background: var(--accent2); color: #000; }
-  .role-reader { background: var(--border); color: var(--muted); }
-
-  /* ── MAIN LAYOUT ── */
-  .main {
-    padding: 20px 20px;
-    max-width: 1600px;
-    margin: 0 auto;
-  }
-
-  .day-grid {
-    display: grid;
-    gap: 20px;
-  }
-
-  .slot-section { }
-
-  .slot-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .slot-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .slot-badge {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 3px 10px;
-    border: 1px solid var(--border);
-    color: var(--muted);
-  }
-
-  .tours-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-  }
-
-  @media (max-width: 1200px) {
-    .tours-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 700px) {
-    .tours-grid { grid-template-columns: 1fr; }
-  }
-
-  /* ── TOUR CARD ── */
-  .tour-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    position: relative;
-    transition: border-color 0.2s;
-  }
-
-  .tour-card.gesperrt {
-    background: var(--gesperrt);
-    border-color: #3a2020;
-    opacity: 0.7;
-  }
-
-  .tour-card.gesperrt .tour-body {
-    pointer-events: none;
-    opacity: 0.4;
-  }
-
-  .tour-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 12px;
-    background: var(--surface2);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .tour-nr {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .tour-nr span {
-    color: var(--accent);
-    font-size: 20px;
-  }
-
-  .tour-controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .lw-badge {
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 8px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border: 1px solid;
-  }
-
-  .lw-badge.has-lw {
-    color: var(--accent2);
-    border-color: var(--accent2);
-    background: rgba(245,166,35,0.1);
-  }
-
-  .lw-badge.no-lw {
-    color: var(--muted);
-    border-color: var(--border);
-  }
-
-  .gesperrt-badge {
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 8px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    background: rgba(232,53,14,0.2);
-    color: var(--accent);
-    border: 1px solid var(--accent);
-  }
-
-  .tour-body {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-  }
-
-  .tour-half {
-    padding: 12px 14px;
-  }
-
-  .tour-half:first-child {
-    border-right: 1px solid var(--border);
-  }
-
-  .half-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--muted);
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .half-label .icon {
-    font-size: 12px;
-  }
-
-  .half-content {
-    font-size: 13px;
-    line-height: 1.5;
-    color: var(--text);
-    min-height: 48px;
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-
-  .half-content.empty {
-    color: var(--muted);
-    font-style: italic;
-    font-size: 12px;
-  }
-
-  .tour-footer {
-    padding: 6px 14px;
-    border-top: 1px solid var(--border);
-    font-size: 11px;
-    color: var(--muted);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .tour-action-btn {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(15,17,23,0.85);
-    opacity: 0;
-    transition: opacity 0.15s;
-    cursor: pointer;
-    border: none;
-    font-size: 13px;
-    color: var(--text);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  .tour-card:not(.gesperrt):hover .tour-action-btn.editable {
-    opacity: 1;
-  }
-
-  /* ── MODAL ── */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    z-index: 200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-
-  .modal {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: 3px solid var(--accent);
-    width: 100%;
-    max-width: 600px;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.8);
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-
-  .modal-header {
-    padding: 20px 24px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .modal-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  .modal-body { padding: 24px; }
-
-  .modal-body .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-
-  .modal-footer {
-    padding: 16px 24px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-  }
-
-  .close-btn {
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 20px;
-    line-height: 1;
-    padding: 0;
-  }
-
-  .close-btn:hover { color: var(--text); }
-
-  /* ── TOGGLE ── */
-  .toggle-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 0;
-  }
-
-  .toggle {
-    position: relative;
-    width: 44px;
-    height: 24px;
-    flex-shrink: 0;
-  }
-
-  .toggle input { opacity: 0; width: 0; height: 0; }
-
-  .toggle-slider {
-    position: absolute;
-    inset: 0;
-    background: var(--border);
-    cursor: pointer;
-    transition: 0.2s;
-    border-radius: 12px;
-  }
-
-  .toggle-slider:before {
-    content: '';
-    position: absolute;
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    bottom: 3px;
-    background: var(--muted);
-    border-radius: 50%;
-    transition: 0.2s;
-  }
-
-  input:checked + .toggle-slider { background: rgba(232,53,14,0.3); }
-  input:checked + .toggle-slider:before {
-    transform: translateX(20px);
-    background: var(--accent);
-  }
-
-  .toggle-label { font-size: 14px; }
-
-  /* ── NAV TABS ── */
-  .nav-tabs {
-    display: flex;
-    gap: 0;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 24px;
-  }
-
-  .nav-tab {
-    padding: 10px 20px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-    transition: all 0.15s;
-  }
-
-  .nav-tab:hover { color: var(--text); }
-  .nav-tab.active { color: var(--text); border-bottom-color: var(--accent); }
-
-  /* ── ADMIN PANEL ── */
-  .admin-panel { padding: 20px; max-width: 900px; margin: 0 auto; }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-  }
-
-  th {
-    text-align: left;
-    padding: 10px 14px;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--muted);
-    background: var(--surface2);
-    border-bottom: 1px solid var(--border);
-  }
-
-  td {
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  tr:hover td { background: var(--surface2); }
-
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--green);
-    padding: 12px 20px;
-    font-size: 14px;
-    z-index: 999;
-    transform: translateX(120%);
-    transition: transform 0.3s;
-    max-width: 320px;
-  }
-
-  .toast.show { transform: translateX(0); }
-  .toast.error { border-left-color: var(--accent); }
-
-  #date-input {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 6px 12px;
-    font-size: 15px;
-    font-family: 'Barlow', sans-serif;
-    outline: none;
-    cursor: pointer;
-  }
-
-  #date-input:focus { border-color: var(--accent); }
-
-  .divider { border: none; border-top: 2px solid var(--border); margin: 20px 0; }
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Barlow:wght@300;400;500;600&display=swap');
+
+/* ── THEME VARIABLES ─────────────────────────────────────────────────────── */
+:root[data-theme="light"] {
+  --bg:        #f0f2f7;
+  --surface:   #ffffff;
+  --surface2:  #f5f7fc;
+  --border:    #dde1ed;
+  --text:      #1a1d2e;
+  --muted:     #7a82a0;
+  --accent:    #d0300c;
+  --accent2:   #e07b00;
+  --green:     #18a85e;
+  --blue:      #2b7de9;
+  --gesperrt-bg: #fff0ee;
+  --gesperrt-border: #f5c0b4;
+  --shadow:    0 2px 12px rgba(0,0,0,0.08);
+  --header-bg: #ffffff;
+}
+
+:root[data-theme="dark"] {
+  --bg:        #0f1117;
+  --surface:   #181c27;
+  --surface2:  #1e2333;
+  --border:    #2a3045;
+  --text:      #e8eaf0;
+  --muted:     #6b7494;
+  --accent:    #e8350e;
+  --accent2:   #f5a623;
+  --green:     #27c97a;
+  --blue:      #4a9eff;
+  --gesperrt-bg:     #2a1a1a;
+  --gesperrt-border: #3a2020;
+  --shadow:    0 2px 12px rgba(0,0,0,0.4);
+  --header-bg: #181c27;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* ── THEME TOGGLE ────────────────────────────────────────────────────────── */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 13px;
+  font-family: 'Barlow', sans-serif;
+  transition: all 0.15s;
+  user-select: none;
+}
+.theme-toggle:hover { border-color: var(--accent); }
+
+/* ── LOGIN ───────────────────────────────────────────────────────────────── */
+#login-screen {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.login-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent);
+  padding: 48px 40px;
+  width: 380px;
+  box-shadow: var(--shadow);
+}
+
+.login-logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 28px; letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.login-logo span { color: var(--accent); }
+.login-sub {
+  font-size: 12px; color: var(--muted); margin-bottom: 32px;
+  letter-spacing: 2px; text-transform: uppercase;
+}
+
+/* ── FORMS ───────────────────────────────────────────────────────────────── */
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--muted); margin-bottom: 5px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 9px 13px;
+  font-size: 14px;
+  font-family: 'Barlow', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+  /* FIXED: allow paste & copy */
+  user-select: text;
+  -webkit-user-select: text;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus { border-color: var(--accent); }
+.form-group textarea { resize: vertical; min-height: 90px; }
+.form-group select { cursor: pointer; }
+
+/* ── BUTTONS ─────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 18px; border: none; cursor: pointer;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; transition: all 0.15s;
+}
+.btn-primary  { background: var(--accent); color: #fff; }
+.btn-primary:hover  { filter: brightness(0.88); }
+.btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--border); }
+.btn-warning  { background: var(--accent2); color: #000; }
+.btn-warning:hover { filter: brightness(0.9); }
+.btn-danger   { background: #c0392b; color: #fff; }
+.btn-danger:hover { filter: brightness(0.88); }
+.btn-sm       { padding: 5px 11px; font-size: 12px; }
+.btn-full     { width: 100%; justify-content: center; }
+
+.error-msg {
+  color: var(--accent); font-size: 13px; margin-top: 10px;
+  padding: 8px 12px; background: rgba(208,48,12,0.08);
+  border-left: 3px solid var(--accent); display: none;
+}
+.success-msg {
+  color: var(--green); font-size: 13px; margin-top: 10px;
+  padding: 8px 12px; background: rgba(24,168,94,0.08);
+  border-left: 3px solid var(--green); display: none;
+}
+
+/* ── HEADER ──────────────────────────────────────────────────────────────── */
+#app { display: none; }
+
+.header {
+  background: var(--header-bg);
+  border-bottom: 2px solid var(--accent);
+  padding: 0 20px;
+  display: flex; align-items: center; gap: 16px;
+  height: 54px; position: sticky; top: 0; z-index: 100;
+  box-shadow: var(--shadow);
+}
+.header-logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 20px; letter-spacing: 1px; flex-shrink: 0;
+}
+.header-logo span { color: var(--accent); }
+.header-sep { width: 1px; height: 24px; background: var(--border); }
+
+.date-nav { display: flex; align-items: center; gap: 8px; }
+#date-input {
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--text); padding: 5px 10px; font-size: 14px;
+  font-family: 'Barlow', sans-serif; outline: none; cursor: pointer;
+}
+#date-input:focus { border-color: var(--accent); }
+
+.header-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+
+.live-badge {
+  display: none; align-items: center; gap: 5px;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--green);
+}
+.live-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.user-info { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.role-tag {
+  font-size: 10px; padding: 2px 7px; text-transform: uppercase;
+  letter-spacing: 1px; font-weight: 700;
+}
+.role-admin  { background: var(--accent); color: #fff; }
+.role-writer { background: var(--accent2); color: #000; }
+.role-reader { background: var(--border); color: var(--muted); }
+
+/* ── SUB NAV ─────────────────────────────────────────────────────────────── */
+.sub-nav {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 0 20px; display: flex; gap: 0;
+}
+.nav-tab {
+  padding: 10px 18px; font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+  background: none; border: none; color: var(--muted); cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s;
+}
+.nav-tab:hover { color: var(--text); }
+.nav-tab.active { color: var(--text); border-bottom-color: var(--accent); }
+
+/* ── MAIN ────────────────────────────────────────────────────────────────── */
+.main { padding: 18px 18px; max-width: 1600px; margin: 0 auto; }
+
+.slot-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
+}
+.slot-title {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 20px;
+  font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+}
+.slot-badge {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+  padding: 2px 8px; border: 1px solid var(--border); color: var(--muted);
+}
+.tours-grid {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 10px;
+}
+@media(max-width:1200px){ .tours-grid { grid-template-columns: repeat(2,1fr); } }
+@media(max-width:680px){  .tours-grid { grid-template-columns: 1fr; } }
+
+.section-divider { border: none; border-top: 2px solid var(--border); margin: 18px 0; }
+
+/* ── TOUR CARD ───────────────────────────────────────────────────────────── */
+.tour-card {
+  background: var(--surface); border: 1px solid var(--border);
+  position: relative; transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: var(--shadow);
+}
+.tour-card:not(.gesperrt):hover { border-color: var(--accent); }
+.tour-card.gesperrt {
+  background: var(--gesperrt-bg); border-color: var(--gesperrt-border); opacity: 0.75;
+}
+.tour-card.gesperrt .tour-body { pointer-events: none; opacity: 0.45; }
+
+.tour-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 11px; background: var(--surface2); border-bottom: 1px solid var(--border);
+}
+.tour-nr {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--muted);
+}
+.tour-nr span { color: var(--accent); font-size: 18px; }
+
+.lw-badge {
+  font-size: 10px; font-weight: 700; padding: 2px 7px;
+  text-transform: uppercase; letter-spacing: 1px; border: 1px solid;
+}
+.lw-badge.has-lw { color: var(--accent2); border-color: var(--accent2); background: rgba(224,123,0,0.08); }
+.lw-badge.no-lw  { color: var(--muted); border-color: var(--border); }
+.gesperrt-badge {
+  font-size: 10px; font-weight: 700; padding: 2px 7px;
+  text-transform: uppercase; letter-spacing: 1px;
+  background: rgba(208,48,12,0.12); color: var(--accent); border: 1px solid var(--accent);
+}
+
+.tour-body { display: grid; grid-template-columns: 1fr 1fr; }
+.tour-half { padding: 10px 12px; }
+.tour-half:first-child { border-right: 1px solid var(--border); }
+.half-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 2px;
+  color: var(--muted); margin-bottom: 5px;
+}
+.half-content {
+  font-size: 13px; line-height: 1.5; color: var(--text);
+  min-height: 44px; white-space: pre-wrap; word-break: break-word;
+}
+.half-content.empty { color: var(--muted); font-style: italic; font-size: 12px; }
+
+.tour-footer {
+  padding: 5px 12px; border-top: 1px solid var(--border);
+  font-size: 11px; color: var(--muted);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.tour-notiz { color: var(--accent2); }
+
+.tour-edit-btn {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.55); opacity: 0; transition: opacity 0.15s;
+  cursor: pointer; border: none; font-size: 13px; color: #fff;
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+.tour-card:not(.gesperrt):hover .tour-edit-btn.can-edit { opacity: 1; }
+
+/* ── OTTENSCHLAG SECTION ─────────────────────────────────────────────────── */
+.ott-section {
+  background: var(--surface); border: 1px solid var(--border);
+  box-shadow: var(--shadow); margin-top: 6px;
+}
+.ott-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+.ott-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted);
+}
+.ott-title span { color: var(--blue); }
+.ott-body { padding: 12px 14px; }
+.ott-empty { color: var(--muted); font-style: italic; font-size: 13px; padding: 6px 0; }
+
+.ott-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+.ott-item {
+  display: grid; grid-template-columns: 1fr auto auto;
+  align-items: center; gap: 10px;
+  padding: 8px 12px; background: var(--surface2); border: 1px solid var(--border);
+}
+.ott-item-text { font-size: 13px; line-height: 1.4; white-space: pre-wrap; word-break: break-word; }
+.ott-lw-tag {
+  font-size: 10px; font-weight: 700; padding: 2px 7px;
+  border: 1px solid; letter-spacing: 1px;
+  white-space: nowrap;
+}
+.ott-lw-tag.has { color: var(--accent2); border-color: var(--accent2); background: rgba(224,123,0,0.08); }
+.ott-lw-tag.nope { color: var(--muted); border-color: var(--border); }
+
+/* ── MODAL ───────────────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+  z-index: 200; display: flex; align-items: center; justify-content: center; padding: 16px;
+}
+.modal {
+  background: var(--surface); border: 1px solid var(--border);
+  border-top: 3px solid var(--accent); width: 100%; max-width: 600px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.35); max-height: 92vh; overflow-y: auto;
+}
+.modal-sm { max-width: 420px; }
+.modal-header {
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+}
+.modal-body { padding: 20px; }
+.modal-footer {
+  padding: 14px 20px; border-top: 1px solid var(--border);
+  display: flex; gap: 8px; justify-content: flex-end;
+}
+.close-btn {
+  background: none; border: none; color: var(--muted);
+  cursor: pointer; font-size: 18px; line-height: 1;
+}
+.close-btn:hover { color: var(--text); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+/* ── TOGGLE ──────────────────────────────────────────────────────────────── */
+.toggle-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+.toggle { position: relative; width: 42px; height: 22px; flex-shrink: 0; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute; inset: 0; background: var(--border);
+  cursor: pointer; transition: 0.2s; border-radius: 11px;
+}
+.toggle-slider:before {
+  content: ''; position: absolute; height: 16px; width: 16px;
+  left: 3px; bottom: 3px; background: var(--muted);
+  border-radius: 50%; transition: 0.2s;
+}
+input:checked + .toggle-slider { background: rgba(208,48,12,0.25); }
+input:checked + .toggle-slider:before { transform: translateX(20px); background: var(--accent); }
+.toggle-label { font-size: 14px; }
+
+/* ── ADMIN PANEL ─────────────────────────────────────────────────────────── */
+.admin-panel { padding: 20px; max-width: 960px; margin: 0 auto; }
+.admin-section { margin-bottom: 36px; }
+.admin-section h3 {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 18px;
+  font-weight: 700; letter-spacing: 1px; margin-bottom: 14px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  text-transform: uppercase;
+}
+
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th {
+  text-align: left; padding: 9px 12px; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 1px; color: var(--muted);
+  background: var(--surface2); border-bottom: 1px solid var(--border);
+}
+td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+tr:hover td { background: var(--surface2); }
+
+/* ── TOAST ───────────────────────────────────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 20px; right: 20px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-left: 3px solid var(--green); padding: 11px 18px;
+  font-size: 14px; z-index: 999;
+  transform: translateX(120%); transition: transform 0.3s; max-width: 300px;
+  box-shadow: var(--shadow);
+}
+.toast.show { transform: translateX(0); }
+.toast.error { border-left-color: var(--accent); }
 </style>
 </head>
 <body>
 
-<!-- ══════════════ LOGIN ══════════════ -->
+<!-- ═══ LOGIN ═══════════════════════════════════════════════════════════════ -->
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">MEISNER <span>●</span></div>
-    <div class="login-sub">Hol & Bring Service</div>
+    <div class="login-sub">Hol &amp; Bring Service</div>
     <div class="form-group">
       <label>Benutzername</label>
-      <input type="text" id="login-user" placeholder="Benutzername" autocomplete="username">
+      <input type="text" id="login-user" autocomplete="username">
     </div>
     <div class="form-group">
       <label>Passwort</label>
-      <input type="password" id="login-pass" placeholder="Passwort" autocomplete="current-password">
+      <input type="password" id="login-pass" autocomplete="current-password">
     </div>
     <button class="btn btn-primary btn-full" onclick="doLogin()">Anmelden</button>
     <div class="error-msg" id="login-error"></div>
   </div>
 </div>
 
-<!-- ══════════════ APP ══════════════ -->
+<!-- ═══ APP ══════════════════════════════════════════════════════════════════ -->
 <div id="app">
   <div class="header">
     <div class="header-logo">MEISNER <span>●</span></div>
-    <div class="header-title">Hol &amp; Bring</div>
-
-    <div class="header-date-nav">
+    <div class="header-sep"></div>
+    <div class="date-nav">
       <button class="btn btn-secondary btn-sm" onclick="changeDate(-1)">◀</button>
       <input type="date" id="date-input" onchange="loadDate(this.value)">
       <button class="btn btn-secondary btn-sm" onclick="changeDate(1)">▶</button>
-      <button class="btn btn-secondary btn-sm" onclick="goToday()">Heute</button>
+      <button class="btn btn-secondary btn-sm" onclick="loadDate(todayStr())">Heute</button>
     </div>
-
     <div class="header-right">
-      <div class="live-badge" id="live-badge" style="display:none">
-        <div class="live-dot"></div>
-        Live
+      <div class="live-badge" id="live-badge"><div class="live-dot"></div>Live</div>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Hell/Dunkel wechseln">
+        <span id="theme-icon">🌙</span> <span id="theme-label">Dunkel</span>
+      </button>
+      <div class="user-info">
+        <span id="hdr-user">–</span>
+        <span class="role-tag" id="hdr-role"></span>
       </div>
-      <div class="user-badge">
-        <span id="header-username">–</span>
-        <span class="role-tag" id="header-role"></span>
-      </div>
-      <button class="btn btn-secondary btn-sm" id="admin-btn" onclick="showAdmin()" style="display:none">⚙ Admin</button>
+      <button class="btn btn-secondary btn-sm" id="btn-pw" onclick="openPwModal()">🔑 Passwort</button>
+      <button class="btn btn-secondary btn-sm" id="btn-admin" onclick="showTab('admin')" style="display:none">⚙ Admin</button>
       <button class="btn btn-secondary btn-sm" onclick="doLogout()">Abmelden</button>
     </div>
   </div>
 
-  <!-- Nav -->
-  <div style="padding: 12px 20px 0; border-bottom: 1px solid var(--border); background: var(--surface);">
-    <div class="nav-tabs" style="margin-bottom:0; border:none;">
-      <button class="nav-tab active" id="tab-plan" onclick="showTab('plan')">📋 Tourenplan</button>
-      <button class="nav-tab" id="tab-admin" onclick="showTab('admin')" style="display:none">👤 Benutzerverwaltung</button>
-    </div>
+  <div class="sub-nav">
+    <button class="nav-tab active" id="tab-plan" onclick="showTab('plan')">📋 Tourenplan</button>
+    <button class="nav-tab" id="tab-admin" onclick="showTab('admin')" style="display:none">👤 Benutzerverwaltung</button>
   </div>
 
-  <!-- Plan view -->
+  <!-- ── PLAN VIEW ── -->
   <div id="view-plan" class="main">
-    <div class="day-grid">
-      <div class="slot-section">
-        <div class="slot-header">
-          <div class="slot-title">☀ Vormittag</div>
-          <div class="slot-badge">Touren 1–4</div>
-        </div>
-        <div class="tours-grid" id="grid-vormittag"></div>
+    <div style="margin-bottom:18px;">
+      <div class="slot-header">
+        <div class="slot-title">☀ Vormittag</div>
+        <div class="slot-badge">Touren 1–4</div>
       </div>
-      <hr class="divider">
-      <div class="slot-section">
-        <div class="slot-header">
-          <div class="slot-title">🌆 Nachmittag</div>
-          <div class="slot-badge">Touren 1–4</div>
+      <div class="tours-grid" id="grid-vormittag"></div>
+    </div>
+
+    <hr class="section-divider">
+
+    <div style="margin-bottom:18px;">
+      <div class="slot-header">
+        <div class="slot-title">🌆 Nachmittag</div>
+        <div class="slot-badge">Touren 1–4</div>
+      </div>
+      <div class="tours-grid" id="grid-nachmittag"></div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Ottenschlag -->
+    <div class="ott-section">
+      <div class="ott-header">
+        <div class="ott-title">📍 Ottenschlag <span>&amp; Umgebung</span></div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="font-size:12px;color:var(--muted)" id="ott-updated"></span>
+          <button class="btn btn-secondary btn-sm" id="btn-ott-add" onclick="addOttEintrag()" style="display:none">+ Eintrag</button>
         </div>
-        <div class="tours-grid" id="grid-nachmittag"></div>
+      </div>
+      <div class="ott-body">
+        <div class="ott-list" id="ott-list"></div>
+        <div class="ott-empty" id="ott-empty">Keine Einträge für diesen Tag.</div>
       </div>
     </div>
   </div>
 
-  <!-- Admin view -->
+  <!-- ── ADMIN VIEW ── -->
   <div id="view-admin" style="display:none">
     <div class="admin-panel">
-      <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:22px;letter-spacing:1px;margin-bottom:20px;">Benutzerverwaltung</h2>
-      <button class="btn btn-primary btn-sm" onclick="openAddUser()" style="margin-bottom:16px">+ Benutzer anlegen</button>
-      <table id="users-table">
-        <thead>
-          <tr>
-            <th>Benutzername</th>
-            <th>Rolle</th>
-            <th>Erstellt</th>
-            <th>Aktionen</th>
-          </tr>
-        </thead>
-        <tbody id="users-tbody"></tbody>
-      </table>
+      <div class="admin-section">
+        <h3>Benutzerverwaltung</h3>
+        <button class="btn btn-primary btn-sm" onclick="openAddUser()" style="margin-bottom:14px">+ Benutzer anlegen</button>
+        <table>
+          <thead><tr><th>Benutzername</th><th>Rolle</th><th>Angelegt</th><th>Aktionen</th></tr></thead>
+          <tbody id="users-tbody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════ MODAL: Tour bearbeiten ══════════════ -->
-<div class="modal-overlay" id="tour-modal" style="display:none" onclick="closeModal(event)">
+<!-- ═══ MODAL: Tour bearbeiten ═══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="tour-modal" style="display:none" onclick="overlayClose(event,'tour-modal')">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="modal-header">
-      <div class="modal-title" id="modal-title">Tour bearbeiten</div>
-      <button class="close-btn" onclick="closeTourModal()">✕</button>
+      <div class="modal-title" id="tour-modal-title">Tour bearbeiten</div>
+      <button class="close-btn" onclick="closeModal('tour-modal')">✕</button>
     </div>
     <div class="modal-body">
       <div class="two-col">
         <div class="form-group">
-          <label>🚚 Liefern (Kunde bekommt Auto)</label>
-          <textarea id="m-liefern" rows="4" placeholder="Name, Adresse, Fahrzeug..."></textarea>
+          <label>🚚 Liefern (Auto zum Kunden)</label>
+          <textarea id="m-liefern" placeholder="Name, Adresse, Fahrzeug..."></textarea>
         </div>
         <div class="form-group">
           <label>🔧 Abholen (Auto in Werkstatt)</label>
-          <textarea id="m-abholen" rows="4" placeholder="Name, Adresse, Fahrzeug..."></textarea>
+          <textarea id="m-abholen" placeholder="Name, Adresse, Fahrzeug..."></textarea>
         </div>
       </div>
       <div class="toggle-row">
-        <label class="toggle">
-          <input type="checkbox" id="m-leihwagen">
-          <span class="toggle-slider"></span>
-        </label>
+        <label class="toggle"><input type="checkbox" id="m-leihwagen"><span class="toggle-slider"></span></label>
         <span class="toggle-label">🚗 Leihwagen erforderlich</span>
       </div>
       <div class="toggle-row">
-        <label class="toggle">
-          <input type="checkbox" id="m-gesperrt">
-          <span class="toggle-slider"></span>
-        </label>
+        <label class="toggle"><input type="checkbox" id="m-gesperrt"><span class="toggle-slider"></span></label>
         <span class="toggle-label">🔒 Tour sperren (Fahrer nicht verfügbar)</span>
       </div>
-      <div class="form-group" style="margin-top:12px">
+      <div class="form-group" style="margin-top:10px">
         <label>Notiz</label>
         <input type="text" id="m-notiz" placeholder="Interne Notiz...">
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="closeTourModal()">Abbrechen</button>
+      <button class="btn btn-secondary" onclick="closeModal('tour-modal')">Abbrechen</button>
       <button class="btn btn-primary" onclick="saveTour()">💾 Speichern</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════ MODAL: Benutzer anlegen ══════════════ -->
-<div class="modal-overlay" id="user-modal" style="display:none" onclick="closeModal(event)">
-  <div class="modal" onclick="event.stopPropagation()" style="max-width:400px">
+<!-- ═══ MODAL: Ottenschlag Eintrag ══════════════════════════════════════════ -->
+<div class="modal-overlay" id="ott-modal" style="display:none" onclick="overlayClose(event,'ott-modal')">
+  <div class="modal modal-sm" onclick="event.stopPropagation()">
     <div class="modal-header">
-      <div class="modal-title" id="user-modal-title">Benutzer anlegen</div>
-      <button class="close-btn" onclick="closeUserModal()">✕</button>
+      <div class="modal-title" id="ott-modal-title">Ottenschlag – Eintrag</div>
+      <button class="close-btn" onclick="closeModal('ott-modal')">✕</button>
     </div>
     <div class="modal-body">
       <div class="form-group">
+        <label>Fahrzeug / Kunde / Details</label>
+        <textarea id="ott-m-text" rows="3" placeholder="z.B. Müller – Golf 7 – Reifen wechseln"></textarea>
+      </div>
+      <div class="toggle-row">
+        <label class="toggle"><input type="checkbox" id="ott-m-lw"><span class="toggle-slider"></span></label>
+        <span class="toggle-label">🚗 Leihwagen steht in Ottenschlag</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('ott-modal')">Abbrechen</button>
+      <button class="btn btn-primary" onclick="saveOttEintrag()">💾 Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: Benutzer anlegen / bearbeiten ════════════════════════════════ -->
+<div class="modal-overlay" id="user-modal" style="display:none" onclick="overlayClose(event,'user-modal')">
+  <div class="modal modal-sm" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title" id="user-modal-title">Benutzer anlegen</div>
+      <button class="close-btn" onclick="closeModal('user-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group" id="u-username-grp">
         <label>Benutzername</label>
         <input type="text" id="u-username" placeholder="z.B. max.mustermann">
       </div>
-      <div class="form-group">
-        <label>Passwort</label>
-        <input type="password" id="u-password" placeholder="Mindestens 6 Zeichen">
+      <div class="form-group" id="u-newpw-grp">
+        <label id="u-newpw-label">Passwort</label>
+        <input type="password" id="u-newpw" placeholder="Mind. 6 Zeichen">
       </div>
       <div class="form-group">
         <label>Rolle</label>
@@ -809,95 +608,134 @@
           <option value="admin">⚙ Administrator</option>
         </select>
       </div>
-      <div class="error-msg" id="user-error" style="display:block;margin-top:8px"></div>
+      <div class="error-msg" id="u-error" style="display:block;margin-top:6px"></div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="closeUserModal()">Abbrechen</button>
+      <button class="btn btn-secondary" onclick="closeModal('user-modal')">Abbrechen</button>
       <button class="btn btn-primary" onclick="saveUser()">Speichern</button>
     </div>
   </div>
 </div>
 
-<!-- Toast -->
+<!-- ═══ MODAL: Eigenes Passwort ändern ══════════════════════════════════════ -->
+<div class="modal-overlay" id="pw-modal" style="display:none" onclick="overlayClose(event,'pw-modal')">
+  <div class="modal modal-sm" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">Passwort ändern</div>
+      <button class="close-btn" onclick="closeModal('pw-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Aktuelles Passwort</label>
+        <input type="password" id="pw-current" placeholder="Aktuelles Passwort">
+      </div>
+      <div class="form-group">
+        <label>Neues Passwort</label>
+        <input type="password" id="pw-new" placeholder="Mind. 6 Zeichen">
+      </div>
+      <div class="form-group">
+        <label>Neues Passwort (Wiederholung)</label>
+        <input type="password" id="pw-new2" placeholder="Wiederholen">
+      </div>
+      <div class="error-msg"   id="pw-error"   style="display:block;margin-top:6px"></div>
+      <div class="success-msg" id="pw-success" style="display:block;margin-top:6px"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('pw-modal')">Schließen</button>
+      <button class="btn btn-primary" onclick="saveOwnPw()">Speichern</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-let currentUser = null;
-let currentDate = todayStr();
-let editingTour = null;
+// ── STATE ────────────────────────────────────────────────────────────────────
+let currentUser  = null;
+let currentDate  = todayStr();
+let toursData    = { vormittag: [], nachmittag: [] };
+let ottData      = { eintraege: [] };
+let ottEditIndex = null;
+let editingTour  = null;
+let editingUserId = null;
 let ws = null;
-let toursData = { vormittag: [], nachmittag: [] };
 
-function todayStr() {
-  return new Date().toISOString().slice(0, 10);
+// ── THEME ────────────────────────────────────────────────────────────────────
+(function initTheme(){
+  const saved = localStorage.getItem('meisner-theme') || 'light';
+  applyTheme(saved);
+})();
+
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  document.getElementById('theme-icon').textContent  = t === 'dark' ? '☀️' : '🌙';
+  document.getElementById('theme-label').textContent = t === 'dark' ? 'Hell'  : 'Dunkel';
+  localStorage.setItem('meisner-theme', t);
 }
 
-function formatDateDE(str) {
-  if (!str) return '';
-  const [y, m, d] = str.split('-');
-  const days = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
-  const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
-  const dt = new Date(str);
-  return `${days[dt.getDay()]}, ${d}. ${months[parseInt(m)-1]} ${y}`;
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme');
+  applyTheme(cur === 'dark' ? 'light' : 'dark');
 }
 
-// ── AUTH ────────────────────────────────────────────────────────────────────
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+function todayStr() { return new Date().toISOString().slice(0,10); }
+
+function esc(s) {
+  return String(s||'')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\n/g,'<br>');
+}
+
+function fmtTime(iso) {
+  if (!iso) return '';
+  return new Date(iso).toLocaleTimeString('de-AT',{hour:'2-digit',minute:'2-digit'});
+}
+
+// ── AUTH ─────────────────────────────────────────────────────────────────────
 async function doLogin() {
   const username = document.getElementById('login-user').value.trim();
   const password = document.getElementById('login-pass').value;
-  const errEl = document.getElementById('login-error');
+  const errEl    = document.getElementById('login-error');
   errEl.style.display = 'none';
-
   try {
-    const res = await fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
+    const res  = await fetch('/api/login',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username,password}) });
     const data = await res.json();
-    if (!res.ok) { errEl.textContent = data.error; errEl.style.display = 'block'; return; }
+    if (!res.ok) { errEl.textContent=data.error; errEl.style.display='block'; return; }
     currentUser = data;
     showApp();
-  } catch (e) {
-    errEl.textContent = 'Verbindungsfehler'; errEl.style.display = 'block';
-  }
+  } catch { errEl.textContent='Verbindungsfehler'; errEl.style.display='block'; }
 }
+
+document.getElementById('login-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 
 async function doLogout() {
-  await fetch('/api/logout', { method: 'POST' });
+  await fetch('/api/logout',{method:'POST'});
   currentUser = null;
-  if (ws) { ws.close(); ws = null; }
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
+  if (ws) { ws.close(); ws=null; }
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
 }
 
-document.getElementById('login-pass').addEventListener('keydown', e => {
-  if (e.key === 'Enter') doLogin();
-});
-
-// ── APP INIT ────────────────────────────────────────────────────────────────
 async function init() {
   try {
     const res = await fetch('/api/me');
-    if (res.ok) {
-      currentUser = await res.json();
-      showApp();
-    }
+    if (res.ok) { currentUser = await res.json(); showApp(); }
   } catch {}
 }
 
+// ── APP BOOT ─────────────────────────────────────────────────────────────────
 function showApp() {
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('hdr-user').textContent = currentUser.username;
+  const rEl = document.getElementById('hdr-role');
+  rEl.textContent  = {admin:'Admin',writer:'Schreiben',reader:'Lesen'}[currentUser.role]||currentUser.role;
+  rEl.className    = 'role-tag role-'+currentUser.role;
 
-  document.getElementById('header-username').textContent = currentUser.username;
-  const roleEl = document.getElementById('header-role');
-  roleEl.textContent = { admin: 'Admin', writer: 'Schreiben', reader: 'Lesen' }[currentUser.role] || currentUser.role;
-  roleEl.className = 'role-tag role-' + currentUser.role;
-
-  if (currentUser.role === 'admin') {
-    document.getElementById('admin-btn').style.display = 'inline-flex';
-    document.getElementById('tab-admin').style.display = 'inline-block';
+  if (currentUser.role==='admin') {
+    document.getElementById('btn-admin').style.display='inline-flex';
+    document.getElementById('tab-admin').style.display='inline-block';
   }
 
   document.getElementById('date-input').value = currentDate;
@@ -905,273 +743,356 @@ function showApp() {
   connectWS();
 }
 
-// ── WEBSOCKET ───────────────────────────────────────────────────────────────
+// ── WEBSOCKET ─────────────────────────────────────────────────────────────────
 function connectWS() {
-  const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+  const proto = location.protocol==='https:'?'wss':'ws';
   ws = new WebSocket(`${proto}://${location.host}`);
-
-  ws.onopen = () => {
-    document.getElementById('live-badge').style.display = 'flex';
-  };
-
-  ws.onmessage = (event) => {
-    const msg = JSON.parse(event.data);
-    if (msg.type === 'tour_updated') {
-      const t = msg.data;
-      if (t.date === currentDate) {
-        // Update in toursData
-        const slot = t.slot;
-        const idx = toursData[slot].findIndex(x => x.tour_nr === t.tour_nr);
-        if (idx !== -1) toursData[slot][idx] = t;
-        else toursData[slot].push(t);
-        renderTours();
-        showToast(`Tour ${t.tour_nr} (${t.slot}) wurde aktualisiert`, false);
-      }
+  ws.onopen  = () => { document.getElementById('live-badge').style.display='flex'; };
+  ws.onclose = () => { document.getElementById('live-badge').style.display='none'; setTimeout(connectWS,3000); };
+  ws.onmessage = e => {
+    const msg = JSON.parse(e.data);
+    if (msg.type==='tour_updated') {
+      const t=msg.data, slot=t.slot;
+      if (t.date!==currentDate) return;
+      const idx = toursData[slot].findIndex(x=>x.tour_nr===t.tour_nr);
+      if (idx!==-1) toursData[slot][idx]=t; else toursData[slot].push(t);
+      renderTours();
+      showToast(`Tour ${t.tour_nr} (${slot}) aktualisiert`);
     }
-  };
-
-  ws.onclose = () => {
-    document.getElementById('live-badge').style.display = 'none';
-    setTimeout(connectWS, 3000);
+    if (msg.type==='ottenschlag_updated') {
+      if (msg.data.date!==currentDate) return;
+      ottData = msg.data;
+      renderOtt();
+      showToast('Ottenschlag-Liste aktualisiert');
+    }
   };
 }
 
-// ── TOUR LOADING & RENDERING ────────────────────────────────────────────────
+// ── DATE LOADING ──────────────────────────────────────────────────────────────
 async function loadDate(dateStr) {
   currentDate = dateStr;
   document.getElementById('date-input').value = dateStr;
-
   try {
-    const res = await fetch(`/api/tours/${dateStr}`);
-    if (!res.ok) return;
-    toursData = await res.json();
+    const [tRes, oRes] = await Promise.all([
+      fetch(`/api/tours/${dateStr}`),
+      fetch(`/api/ottenschlag/${dateStr}`)
+    ]);
+    if (tRes.ok) toursData = await tRes.json();
+    if (oRes.ok) ottData   = await oRes.json();
     renderTours();
-  } catch (e) {
-    showToast('Fehler beim Laden', true);
-  }
+    renderOtt();
+  } catch { showToast('Fehler beim Laden', true); }
 }
 
+function changeDate(d) {
+  const dt = new Date(currentDate); dt.setDate(dt.getDate()+d);
+  loadDate(dt.toISOString().slice(0,10));
+}
+
+// ── RENDER TOURS ──────────────────────────────────────────────────────────────
 function renderTours() {
-  for (const slot of ['vormittag', 'nachmittag']) {
+  for (const slot of ['vormittag','nachmittag']) {
     const grid = document.getElementById(`grid-${slot}`);
     grid.innerHTML = '';
-    const tours = toursData[slot] || [];
-    for (let nr = 1; nr <= 4; nr++) {
-      const tour = tours.find(t => t.tour_nr === nr) || { tour_nr: nr, slot, date: currentDate, liefern: '', abholen: '', leihwagen: 0, gesperrt: 0, notiz: '', updated_by: '', updated_at: null };
-      grid.appendChild(makeTourCard(tour));
+    for (let nr=1;nr<=4;nr++) {
+      const t = (toursData[slot]||[]).find(x=>x.tour_nr===nr) ||
+        {tour_nr:nr,slot,date:currentDate,liefern:'',abholen:'',leihwagen:0,gesperrt:0,notiz:'',updated_by:'',updated_at:null};
+      grid.appendChild(makeTourCard(t));
     }
   }
 }
 
-function makeTourCard(tour) {
-  const canEdit = currentUser && currentUser.role !== 'reader';
+function makeTourCard(t) {
+  const canEdit = currentUser && currentUser.role!=='reader';
   const div = document.createElement('div');
-  div.className = 'tour-card' + (tour.gesperrt ? ' gesperrt' : '');
-
-  const lwText = tour.leihwagen ? 'LW' : 'oL';
-  const lwClass = tour.leihwagen ? 'has-lw' : 'no-lw';
-  const updatedInfo = tour.updated_at ? `${tour.updated_by} · ${new Date(tour.updated_at).toLocaleTimeString('de-AT', {hour:'2-digit', minute:'2-digit'})}` : 'Noch nicht bearbeitet';
+  div.className = 'tour-card'+(t.gesperrt?' gesperrt':'');
+  const lwClass = t.leihwagen?'has-lw':'no-lw';
+  const lwText  = t.leihwagen?'LW':'oL';
+  const updated = t.updated_at ? `${t.updated_by} · ${fmtTime(t.updated_at)}` : 'Noch nicht bearbeitet';
 
   div.innerHTML = `
     <div class="tour-header">
-      <div class="tour-nr">Tour <span>${tour.tour_nr}</span></div>
-      <div class="tour-controls">
-        ${tour.gesperrt ? '<span class="gesperrt-badge">🔒 Gesperrt</span>' : `<span class="lw-badge ${lwClass}">${lwText}</span>`}
+      <div class="tour-nr">Tour <span>${t.tour_nr}</span></div>
+      <div>
+        ${t.gesperrt
+          ? '<span class="gesperrt-badge">🔒 Gesperrt</span>'
+          : `<span class="lw-badge ${lwClass}">${lwText}</span>`}
       </div>
     </div>
     <div class="tour-body">
       <div class="tour-half">
-        <div class="half-label"><span class="icon">🚚</span> Liefern</div>
-        <div class="half-content ${!tour.liefern ? 'empty' : ''}">${tour.liefern ? escHtml(tour.liefern) : '– frei –'}</div>
+        <div class="half-label">🚚 Liefern</div>
+        <div class="half-content ${!t.liefern?'empty':''}">${t.liefern?esc(t.liefern):'– frei –'}</div>
       </div>
       <div class="tour-half">
-        <div class="half-label"><span class="icon">🔧</span> Abholen</div>
-        <div class="half-content ${!tour.abholen ? 'empty' : ''}">${tour.abholen ? escHtml(tour.abholen) : '– frei –'}</div>
+        <div class="half-label">🔧 Abholen</div>
+        <div class="half-content ${!t.abholen?'empty':''}">${t.abholen?esc(t.abholen):'– frei –'}</div>
       </div>
     </div>
-    ${tour.notiz ? `<div class="tour-footer" style="color:var(--accent2)">📝 ${escHtml(tour.notiz)}</div>` : ''}
-    <div class="tour-footer">
-      <span>${updatedInfo}</span>
-    </div>
-    ${canEdit ? `<button class="tour-action-btn editable" onclick="openTourModal('${tour.slot}', ${tour.tour_nr})">✏ Bearbeiten</button>` : ''}
+    ${t.notiz?`<div class="tour-footer tour-notiz">📝 ${esc(t.notiz)}</div>`:''}
+    <div class="tour-footer"><span>${updated}</span></div>
+    ${canEdit?`<button class="tour-edit-btn can-edit" onclick="openTourModal('${t.slot}',${t.tour_nr})">✏ Bearbeiten</button>`:''}
   `;
   return div;
 }
 
-function escHtml(str) {
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-}
-
-function changeDate(delta) {
-  const d = new Date(currentDate);
-  d.setDate(d.getDate() + delta);
-  loadDate(d.toISOString().slice(0, 10));
-}
-
-function goToday() {
-  loadDate(todayStr());
-}
-
-// ── TOUR MODAL ──────────────────────────────────────────────────────────────
+// ── TOUR MODAL ────────────────────────────────────────────────────────────────
 function openTourModal(slot, nr) {
-  const tour = (toursData[slot] || []).find(t => t.tour_nr === nr) || {};
-  editingTour = { slot, nr };
-
-  document.getElementById('modal-title').textContent =
-    `Tour ${nr} – ${slot.charAt(0).toUpperCase() + slot.slice(1)} – ${formatDateDE(currentDate)}`;
-  document.getElementById('m-liefern').value = tour.liefern || '';
-  document.getElementById('m-abholen').value = tour.abholen || '';
-  document.getElementById('m-leihwagen').checked = !!tour.leihwagen;
-  document.getElementById('m-gesperrt').checked = !!tour.gesperrt;
-  document.getElementById('m-notiz').value = tour.notiz || '';
-  document.getElementById('tour-modal').style.display = 'flex';
-}
-
-function closeTourModal() {
-  document.getElementById('tour-modal').style.display = 'none';
-  editingTour = null;
+  const t = (toursData[slot]||[]).find(x=>x.tour_nr===nr)||{};
+  editingTour = {slot,nr};
+  document.getElementById('tour-modal-title').textContent = `Tour ${nr} – ${slot.charAt(0).toUpperCase()+slot.slice(1)}`;
+  document.getElementById('m-liefern').value  = t.liefern||'';
+  document.getElementById('m-abholen').value  = t.abholen||'';
+  document.getElementById('m-leihwagen').checked = !!t.leihwagen;
+  document.getElementById('m-gesperrt').checked  = !!t.gesperrt;
+  document.getElementById('m-notiz').value    = t.notiz||'';
+  document.getElementById('tour-modal').style.display='flex';
+  setTimeout(()=>document.getElementById('m-liefern').focus(),100);
 }
 
 async function saveTour() {
   if (!editingTour) return;
   const body = {
-    liefern: document.getElementById('m-liefern').value,
-    abholen: document.getElementById('m-abholen').value,
-    leihwagen: document.getElementById('m-leihwagen').checked,
+    liefern:  document.getElementById('m-liefern').value,
+    abholen:  document.getElementById('m-abholen').value,
+    leihwagen:document.getElementById('m-leihwagen').checked,
     gesperrt: document.getElementById('m-gesperrt').checked,
-    notiz: document.getElementById('m-notiz').value
+    notiz:    document.getElementById('m-notiz').value
   };
+  try {
+    const res = await fetch(`/api/tours/${currentDate}/${editingTour.slot}/${editingTour.nr}`,
+      {method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if (!res.ok) { const e=await res.json(); showToast(e.error||'Fehler',true); return; }
+    const updated = await res.json();
+    const idx = (toursData[editingTour.slot]||[]).findIndex(x=>x.tour_nr===editingTour.nr);
+    if(idx!==-1) toursData[editingTour.slot][idx]=updated; else toursData[editingTour.slot].push(updated);
+    renderTours();
+    closeModal('tour-modal');
+    showToast('Tour gespeichert ✓');
+  } catch { showToast('Verbindungsfehler',true); }
+}
+
+// ── OTTENSCHLAG ───────────────────────────────────────────────────────────────
+function renderOtt() {
+  const list  = document.getElementById('ott-list');
+  const empty = document.getElementById('ott-empty');
+  const btnAdd = document.getElementById('btn-ott-add');
+  const canEdit = currentUser && currentUser.role!=='reader';
+
+  btnAdd.style.display = canEdit ? 'inline-flex' : 'none';
+
+  const items = ottData.eintraege || [];
+  if (items.length===0) {
+    list.innerHTML=''; empty.style.display='block';
+  } else {
+    empty.style.display='none';
+    list.innerHTML = items.map((it,i) => `
+      <div class="ott-item">
+        <div class="ott-item-text">${esc(it.text)}</div>
+        <span class="ott-lw-tag ${it.leihwagen?'has':'nope'}">${it.leihwagen?'LW':'kein LW'}</span>
+        ${canEdit?`
+          <div style="display:flex;gap:5px">
+            <button class="btn btn-secondary btn-sm" onclick="editOttEintrag(${i})">✏</button>
+            <button class="btn btn-danger btn-sm"    onclick="deleteOttEintrag(${i})">✕</button>
+          </div>`:'<span></span>'}
+      </div>`).join('');
+  }
+
+  const updEl = document.getElementById('ott-updated');
+  updEl.textContent = ottData.updated_at
+    ? `${ottData.updated_by} · ${fmtTime(ottData.updated_at)}`
+    : '';
+}
+
+function addOttEintrag() {
+  ottEditIndex = null;
+  document.getElementById('ott-modal-title').textContent = 'Ottenschlag – Eintrag hinzufügen';
+  document.getElementById('ott-m-text').value = '';
+  document.getElementById('ott-m-lw').checked = false;
+  document.getElementById('ott-modal').style.display='flex';
+  setTimeout(()=>document.getElementById('ott-m-text').focus(),100);
+}
+
+function editOttEintrag(i) {
+  ottEditIndex = i;
+  const it = ottData.eintraege[i];
+  document.getElementById('ott-modal-title').textContent = 'Ottenschlag – Eintrag bearbeiten';
+  document.getElementById('ott-m-text').value  = it.text||'';
+  document.getElementById('ott-m-lw').checked  = !!it.leihwagen;
+  document.getElementById('ott-modal').style.display='flex';
+}
+
+async function saveOttEintrag() {
+  const text     = document.getElementById('ott-m-text').value.trim();
+  const leihwagen = document.getElementById('ott-m-lw').checked;
+  if (!text) { showToast('Bitte Text eingeben',true); return; }
+
+  const items = [...(ottData.eintraege||[])];
+  const entry = { text, leihwagen };
+  if (ottEditIndex!==null) items[ottEditIndex]=entry; else items.push(entry);
+
+  await saveOttData(items);
+  closeModal('ott-modal');
+}
+
+async function deleteOttEintrag(i) {
+  if (!confirm('Eintrag löschen?')) return;
+  const items = (ottData.eintraege||[]).filter((_,idx)=>idx!==i);
+  await saveOttData(items);
+}
+
+async function saveOttData(eintraege) {
+  try {
+    const res = await fetch(`/api/ottenschlag/${currentDate}`,
+      {method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({eintraege})});
+    if (res.ok) {
+      ottData.eintraege = eintraege;
+      renderOtt();
+      showToast('Ottenschlag gespeichert ✓');
+    } else {
+      const e=await res.json(); showToast(e.error||'Fehler',true);
+    }
+  } catch { showToast('Verbindungsfehler',true); }
+}
+
+// ── OWN PASSWORD ──────────────────────────────────────────────────────────────
+function openPwModal() {
+  document.getElementById('pw-current').value='';
+  document.getElementById('pw-new').value='';
+  document.getElementById('pw-new2').value='';
+  document.getElementById('pw-error').style.display='none';
+  document.getElementById('pw-success').style.display='none';
+  document.getElementById('pw-modal').style.display='flex';
+}
+
+async function saveOwnPw() {
+  const cur  = document.getElementById('pw-current').value;
+  const nw   = document.getElementById('pw-new').value;
+  const nw2  = document.getElementById('pw-new2').value;
+  const errEl = document.getElementById('pw-error');
+  const okEl  = document.getElementById('pw-success');
+  errEl.style.display='none'; okEl.style.display='none';
+
+  if (!cur||!nw||!nw2) { errEl.textContent='Alle Felder ausfüllen'; errEl.style.display='block'; return; }
+  if (nw!==nw2) { errEl.textContent='Neue Passwörter stimmen nicht überein'; errEl.style.display='block'; return; }
+  if (nw.length<6) { errEl.textContent='Mind. 6 Zeichen'; errEl.style.display='block'; return; }
 
   try {
-    const res = await fetch(`/api/tours/${currentDate}/${editingTour.slot}/${editingTour.nr}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    if (!res.ok) {
-      const err = await res.json();
-      showToast(err.error || 'Fehler', true); return;
-    }
-    const updated = await res.json();
-    const idx = (toursData[editingTour.slot] || []).findIndex(t => t.tour_nr === editingTour.nr);
-    if (idx !== -1) toursData[editingTour.slot][idx] = updated;
-    else toursData[editingTour.slot].push(updated);
-    renderTours();
-    closeTourModal();
-    showToast('Tour gespeichert ✓');
-  } catch (e) {
-    showToast('Verbindungsfehler', true);
-  }
+    const res = await fetch('/api/me/password',
+      {method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({currentPassword:cur,newPassword:nw})});
+    const data = await res.json();
+    if (!res.ok) { errEl.textContent=data.error; errEl.style.display='block'; return; }
+    okEl.textContent='Passwort erfolgreich geändert ✓'; okEl.style.display='block';
+    document.getElementById('pw-current').value='';
+    document.getElementById('pw-new').value='';
+    document.getElementById('pw-new2').value='';
+  } catch { errEl.textContent='Verbindungsfehler'; errEl.style.display='block'; }
 }
 
-function closeModal(e) {
-  if (e.target.classList.contains('modal-overlay')) {
-    closeTourModal(); closeUserModal();
-  }
-}
-
-// ── TABS ────────────────────────────────────────────────────────────────────
-function showTab(name) {
-  document.getElementById('view-plan').style.display = name === 'plan' ? 'block' : 'none';
-  document.getElementById('view-admin').style.display = name === 'admin' ? 'block' : 'none';
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById(`tab-${name}`).classList.add('active');
-  if (name === 'admin') loadUsers();
-}
-
-function showAdmin() { showTab('admin'); }
-
-// ── USER MANAGEMENT ─────────────────────────────────────────────────────────
+// ── USER MANAGEMENT ───────────────────────────────────────────────────────────
 async function loadUsers() {
   const res = await fetch('/api/users');
   if (!res.ok) return;
   const users = await res.json();
   const tbody = document.getElementById('users-tbody');
-  tbody.innerHTML = '';
-  users.forEach(u => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><strong>${escHtml(u.username)}</strong></td>
+  tbody.innerHTML='';
+  users.forEach(u=>{
+    const isSelf = u.username===currentUser.username;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td><strong>${esc(u.username)}</strong> ${isSelf?'<em style="color:var(--muted);font-size:11px">(du)</em>':''}</td>
       <td><span class="role-tag role-${u.role}">${{admin:'Admin',writer:'Schreiben',reader:'Lesen'}[u.role]}</span></td>
-      <td style="color:var(--muted);font-size:13px">${new Date(u.created_at).toLocaleDateString('de-AT')}</td>
-      <td>
-        <select onchange="changeRole(${u.id}, this.value)" style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:4px 8px;font-size:12px;cursor:pointer">
-          <option value="reader" ${u.role==='reader'?'selected':''}>Lesen</option>
-          <option value="writer" ${u.role==='writer'?'selected':''}>Schreiben</option>
-          <option value="admin" ${u.role==='admin'?'selected':''}>Admin</option>
-        </select>
-        &nbsp;
-        <button class="btn btn-danger btn-sm" onclick="deleteUser(${u.id}, '${escHtml(u.username)}')">Löschen</button>
+      <td style="color:var(--muted);font-size:12px">${new Date(u.created_at).toLocaleDateString('de-AT')}</td>
+      <td style="display:flex;gap:6px;align-items:center">
+        <button class="btn btn-secondary btn-sm" onclick="openEditUser(${u.id},'${esc(u.username)}','${u.role}')">✏ Bearbeiten</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteUser(${u.id},'${esc(u.username)}')" ${isSelf?'disabled':''}>Löschen</button>
       </td>`;
     tbody.appendChild(tr);
   });
 }
 
-async function changeRole(id, role) {
-  await fetch(`/api/users/${id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ role })
-  });
-  showToast('Rolle geändert ✓');
+function openAddUser() {
+  editingUserId=null;
+  document.getElementById('user-modal-title').textContent='Benutzer anlegen';
+  document.getElementById('u-username-grp').style.display='block';
+  document.getElementById('u-username').value='';
+  document.getElementById('u-newpw-label').textContent='Passwort';
+  document.getElementById('u-newpw').value='';
+  document.getElementById('u-newpw').placeholder='Mind. 6 Zeichen';
+  document.getElementById('u-role').value='reader';
+  document.getElementById('u-error').textContent=''; document.getElementById('u-error').style.display='none';
+  document.getElementById('user-modal').style.display='flex';
+}
+
+function openEditUser(id, username, role) {
+  editingUserId=id;
+  document.getElementById('user-modal-title').textContent=`Bearbeiten: ${username}`;
+  document.getElementById('u-username-grp').style.display='none';
+  document.getElementById('u-newpw-label').textContent='Neues Passwort (leer = nicht ändern)';
+  document.getElementById('u-newpw').value='';
+  document.getElementById('u-newpw').placeholder='Leer lassen = unverändert';
+  document.getElementById('u-role').value=role;
+  document.getElementById('u-error').textContent=''; document.getElementById('u-error').style.display='none';
+  document.getElementById('user-modal').style.display='flex';
+}
+
+async function saveUser() {
+  const errEl = document.getElementById('u-error');
+  errEl.textContent=''; errEl.style.display='none';
+  const role    = document.getElementById('u-role').value;
+  const newPw   = document.getElementById('u-newpw').value;
+
+  if (editingUserId) {
+    // Edit existing
+    const body = { role };
+    if (newPw) {
+      if (newPw.length<6) { errEl.textContent='Passwort mind. 6 Zeichen'; errEl.style.display='block'; return; }
+      body.newPassword = newPw;
+    }
+    const res = await fetch(`/api/users/${editingUserId}`,
+      {method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if (res.ok) { closeModal('user-modal'); loadUsers(); showToast('Benutzer aktualisiert ✓'); }
+    else { const d=await res.json(); errEl.textContent=d.error; errEl.style.display='block'; }
+  } else {
+    // New user
+    const username = document.getElementById('u-username').value.trim();
+    if (!username||!newPw) { errEl.textContent='Alle Felder ausfüllen'; errEl.style.display='block'; return; }
+    if (newPw.length<6) { errEl.textContent='Passwort mind. 6 Zeichen'; errEl.style.display='block'; return; }
+    const res = await fetch('/api/users',
+      {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password:newPw,role})});
+    if (res.ok) { closeModal('user-modal'); loadUsers(); showToast('Benutzer angelegt ✓'); }
+    else { const d=await res.json(); errEl.textContent=d.error; errEl.style.display='block'; }
+  }
 }
 
 async function deleteUser(id, name) {
   if (!confirm(`Benutzer "${name}" wirklich löschen?`)) return;
-  const res = await fetch(`/api/users/${id}`, { method: 'DELETE' });
-  if (res.ok) { showToast('Benutzer gelöscht'); loadUsers(); }
-  else showToast('Fehler beim Löschen', true);
+  const res = await fetch(`/api/users/${id}`,{method:'DELETE'});
+  if (res.ok) { loadUsers(); showToast('Benutzer gelöscht'); }
+  else showToast('Fehler beim Löschen',true);
 }
 
-let editingUserId = null;
-
-function openAddUser() {
-  editingUserId = null;
-  document.getElementById('user-modal-title').textContent = 'Benutzer anlegen';
-  document.getElementById('u-username').value = '';
-  document.getElementById('u-password').value = '';
-  document.getElementById('u-role').value = 'reader';
-  document.getElementById('user-error').textContent = '';
-  document.getElementById('user-modal').style.display = 'flex';
+// ── TABS ──────────────────────────────────────────────────────────────────────
+function showTab(name) {
+  document.getElementById('view-plan').style.display  = name==='plan'  ?'block':'none';
+  document.getElementById('view-admin').style.display = name==='admin' ?'block':'none';
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(`tab-${name}`).classList.add('active');
+  if (name==='admin') loadUsers();
 }
 
-function closeUserModal() {
-  document.getElementById('user-modal').style.display = 'none';
+// ── MODAL HELPERS ─────────────────────────────────────────────────────────────
+function closeModal(id) { document.getElementById(id).style.display='none'; }
+function overlayClose(e,id) { if(e.target.classList.contains('modal-overlay')) closeModal(id); }
+
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+let toastTimer=null;
+function showToast(msg,isError=false) {
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className='toast show'+(isError?' error':'');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove('show'),3500);
 }
 
-async function saveUser() {
-  const username = document.getElementById('u-username').value.trim();
-  const password = document.getElementById('u-password').value;
-  const role = document.getElementById('u-role').value;
-  const errEl = document.getElementById('user-error');
-  errEl.textContent = '';
-
-  if (!username || !password) { errEl.textContent = 'Alle Felder ausfüllen'; return; }
-  if (password.length < 6) { errEl.textContent = 'Passwort min. 6 Zeichen'; return; }
-
-  const res = await fetch('/api/users', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password, role })
-  });
-  if (res.ok) {
-    closeUserModal(); loadUsers(); showToast('Benutzer angelegt ✓');
-  } else {
-    const d = await res.json(); errEl.textContent = d.error;
-  }
-}
-
-// ── TOAST ───────────────────────────────────────────────────────────────────
-let toastTimer = null;
-function showToast(msg, isError = false) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast show' + (isError ? ' error' : '');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
-}
-
-// ── BOOT ────────────────────────────────────────────────────────────────────
 init();
 </script>
 </body>
