@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  meisner-app:
+    build: .
+    # Oder wenn du ein fertiges Image verwendest:
+    # image: autohaus-meisner:latest
+    container_name: meisner-holbring
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - meisner-data:/data
+    environment:
+      - PORT=3000
+      - DB_PATH=/data/meisner.db
+      - JWT_SECRET=BITTE_AENDERN_SICHERER_SCHLUESSEL_2024
+      - NODE_ENV=production
+
+volumes:
+  meisner-data:
+    driver: local
