@@ -12,7 +12,7 @@ services:
     volumes:
       - meisner-data:/data
     environment:
-      - PORT=3000
+      - PORT=3006
       - DB_PATH=/data/meisner.db
       - JWT_SECRET=BITTE_AENDERN_SICHERER_SCHLUESSEL_2024
       - NODE_ENV=production
